@@ -1,5 +1,9 @@
 # How to reference in other places
-
+variable "name_prefix" {
+  description = "project name"
+  type = string
+  default = "grp-4"
+}
 variable "MONGO_URI" {
   description = "MongoDB Atlas connection URI"
   type        = string
