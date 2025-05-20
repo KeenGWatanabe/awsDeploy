@@ -66,13 +66,17 @@ resource "aws_ecs_task_definition" "app" {
     portMappings = [{
       containerPort = 5000
       hostPort      = 5000
+    }],
+    secrets = [{
+      name      = "MONGODB_URI",  # Populates process.env.MONGODB_URI
+      valueFrom = aws_secretsmanager_secret.mongo_uri.arn
     }]
-    environment = [
-      {
-        name  = "MONGODB_ATLAS_URI"
-        value = var.MONGO_URI
-      }
-    ]
+    # environment = [
+    #   {
+    #     name  = "MONGODB_ATLAS_URI"
+    #     value = var.MONGO_URI
+    #   }
+    # ]
     logConfiguration = {
       logDriver = "awslogs"
       options = {
