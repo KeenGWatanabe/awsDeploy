@@ -1,3 +1,5 @@
+Run secrets, update iam.tf line 56 for mongo arn
+
 # terraform sequence
 $ terraform init
 $ terraform apply -target=module.ecr

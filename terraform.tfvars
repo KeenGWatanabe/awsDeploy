@@ -1,5 +1,5 @@
 
-MONGO_URI = "mongodb+srv://user:1234@tasks.hqybvw0.mongodb.net/?retryWrites=true&w=majority&appName=tasks"
+# MONGO_URI = "mongodb+srv://user:1234@tasks.hqybvw0.mongodb.net/?retryWrites=true&w=majority&appName=tasks"
 
 # UPDATE BELOW 3 TOGETHER
 vpc_id = "vpc-01366ef295e998680"

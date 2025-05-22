@@ -2,7 +2,7 @@
 variable "name_prefix" {
   description = "project name"
   type = string
-  default = "grp-4"
+  default = "ce-grp-4"
 }
 variable "MONGO_URI" {
   description = "MongoDB Atlas connection URI"
@@ -15,10 +15,6 @@ variable "vpc_id" {
   type        = string
 }
 
-variable "name_prefix" {
-  description = "ecs for ce994"
-  default = "ce994"
-}
 
 variable "alb_subnet_ids" {
   type = list(string)
