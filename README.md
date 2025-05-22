@@ -16,6 +16,7 @@ module "ecr" {
 $ terraform apply 
 
 # deepseek
- SECRETS STATUS, CHECK pte subnets VPC endpoints,NAT reach Aws Secrets Mgr
- missing iam permissions secretsmanager:GetSecretValue
- security grp might block outbound traffic https: port 443 to Aws Secrets Mgr
+ SECRETS STATUS, CHECK 
+ > pte subnets VPC endpoints,NAT reach Aws Secrets Mgr
+ > missing iam permissions secretsmanager:GetSecretValue
+ > security grp might block outbound traffic https: port 443 to Aws Secrets Mgr
