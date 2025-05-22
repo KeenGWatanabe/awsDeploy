@@ -1,6 +1,6 @@
 terraform {
   backend "s3" {
-    bucket = "${var.name_prefix}.tfstate-backend.com"
+    bucket = "ce-grp-4.tfstate-backend.com"
     key = "secretsecs/terraform.tfstate"
     region = "us-east-1"
     dynamodb_table = "terraform-state-locks"  # Critical for locking
@@ -57,7 +57,7 @@ resource "aws_ecs_task_definition" "app" {
   requires_compatibilities = ["FARGATE"]
   cpu                      = 512 #1024 
   memory                   = 1024 #2048
-  execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn
+  execution_role_arn       = aws_iam_role.ecs_execution_role.arn
 
   container_definitions = jsonencode([{
     name      = "${var.name_prefix}-app"
@@ -69,7 +69,7 @@ resource "aws_ecs_task_definition" "app" {
     }],
     secrets = [{
       name      = "MONGODB_URI",  # Populates process.env.MONGODB_URI
-      valueFrom = aws_secretsmanager_secret.mongo_uri.arn
+      valueFrom = data.aws_secretsmanager_secret.mongo_uri.arn
     }]
     # environment = [
     #   {

@@ -1,8 +1,9 @@
-Run secrets, update iam.tf line 56 for mongo arn
+Run secrets, update iam.tf line 44 for mongo arn
 
 # terraform sequence
 $ terraform init
-$ terraform apply -target=module.ecr
+$ terraform apply -target=module.ecr  OR
+$ terraform apply -target=aws_ecr_repository.app
 
 will apply to the following:
 module "ecr" {

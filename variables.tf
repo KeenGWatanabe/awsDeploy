@@ -4,11 +4,11 @@ variable "name_prefix" {
   type = string
   default = "ce-grp-4"
 }
-variable "MONGO_URI" {
-  description = "MongoDB Atlas connection URI"
-  type        = string
-  sensitive   = true
-}
+# variable "MONGO_URI" {
+#   description = "MongoDB Atlas connection URI"
+#   type        = string
+#   sensitive   = true
+# }
 
 variable "vpc_id" {
   description = "The ID of the VPC where resources will be created"
