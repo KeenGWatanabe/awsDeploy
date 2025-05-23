@@ -41,7 +41,7 @@ resource "aws_iam_role_policy" "ecs_logging" {
 
 # Reference the secret ARN from the Secrets Repo
 data "aws_secretsmanager_secret" "mongo_uri" {
-  arn = "arn:aws:secretsmanager:us-east-1:255945442255:secret:prod/mongodb_uri-6BiaW8"
+  arn = "arn:aws:secretsmanager:us-east-1:255945442255:secret:prod/mongodb_uri-hn7XIs"
 }
 
 # Permissions for Secrets Mgr
