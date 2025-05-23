@@ -118,12 +118,3 @@ resource "aws_ecs_service" "app" {
   }
 }
 
-# this can terraform -target=aws_ecr_respository.app prior to pushing Docker image
-resource "aws_ecr_repository" "app" {
-  name                 = "${var.name_prefix}-app"
-  image_tag_mutability = "MUTABLE"
-
-  image_scanning_configuration {
-    scan_on_push = true
-  }
-}
