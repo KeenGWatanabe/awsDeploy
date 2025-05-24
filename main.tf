@@ -69,11 +69,12 @@ resource "aws_ecs_task_definition" "app" {
     }],
     secrets = [{
       name      = "MONGODB_URI",  # Populates process.env.MONGODB_URI
-      valueFrom = data.aws_secretsmanager_secret.mongo_uri.arn
+      valueFrom = "arn:aws:secretsmanager:us-east-1:255945442255:secret:prod/mongodb_uri"
+      #data.aws_secretsmanager_secret.mongo_uri.arn
     }]
     environment = [
       {
-        name  = "MONGODB_URI" # CHANGE THIS CHECK
+        name  = "NODE_ENV"  # "MONGODB_URI" CHANGE THIS CHECK
         value = "production"
       }
     ]
