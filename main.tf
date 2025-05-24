@@ -71,12 +71,12 @@ resource "aws_ecs_task_definition" "app" {
       name      = "MONGODB_URI",  # Populates process.env.MONGODB_URI
       valueFrom = data.aws_secretsmanager_secret.mongo_uri.arn
     }]
-    # environment = [
-    #   {
-    #     name  = "MONGODB_ATLAS_URI"
-    #     value = var.MONGO_URI
-    #   }
-    # ]
+    environment = [
+      {
+        name  = "MONGODB_ATLAS_URI" # CHANGE THIS CHECK
+        value = "production"
+      }
+    ]
     logConfiguration = {
       logDriver = "awslogs"
       options = {

@@ -69,6 +69,6 @@ resource "aws_security_group" "alb" {
     cidr_blocks = ["0.0.0.0/0"]
   }
   tags = {
-    Name = "nodejs-app-alb-sg"
+    Name = "${var.name_prefix}-app-alb-sg"
   }
 }
