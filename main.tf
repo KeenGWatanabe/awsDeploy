@@ -73,7 +73,7 @@ resource "aws_ecs_task_definition" "app" {
     }]
     environment = [
       {
-        name  = "MONGODB_ATLAS_URI" # CHANGE THIS CHECK
+        name  = "MONGODB_URI" # CHANGE THIS CHECK
         value = "production"
       }
     ]
