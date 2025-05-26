@@ -1,8 +1,8 @@
 
 # MONGO_URI = "mongodb+srv://user:1234@tasks.hqybvw0.mongodb.net/?retryWrites=true&w=majority&appName=tasks"
-# UPDATE BELOW 3 TOGETHER
-vpc_id = "vpc-0e67539baf1a9b502"
+# UPDATE BELOW 3 TOGETHER using "ce-grp-4_vpc" tf
+vpc_id = "vpc-0d9bfd8193a28db14"
  # Public subnets from VPC repo
-alb_subnet_ids = [ "subnet-028bd426e6a71682a", "subnet-0be9c3ede8bcb794c" ]
+alb_subnet_ids = [ "subnet-02cae5f5e714bc475", "subnet-04fc5bbaf6b95e6c0" ]
  # Private subnets from VPC repo
-private_subnet_ids = ["subnet-0e2c8d8300f1dfb40", "subnet-0ab1472ba20192fb7"]
+private_subnet_ids = ["subnet-079f012fb29ab9853", "subnet-070d03cd050d8378c"]
