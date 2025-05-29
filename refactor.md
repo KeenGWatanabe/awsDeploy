@@ -71,14 +71,14 @@ RUN npm install aws-sdk
 
 COPY . .
 
-EXPOSE 3000
+EXPOSE 5000
 
 CMD ["node", "app.js"]
 ```
 
 ### 3. Update your ECS task definition in g4infra
 
-In your `g4infra` repo, modify the task definition to include secrets permissions. Here's an example Terraform snippet:
+In your `g4infra` repo, modify the `task_definition` to include secrets permissions. Here's an example Terraform snippet:
 
 ```hcl
 resource "aws_ecs_task_definition" "app" {

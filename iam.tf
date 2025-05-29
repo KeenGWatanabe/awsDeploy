@@ -66,3 +66,22 @@ resource "aws_iam_role_policy_attachment" "xray_write_access" {
   role       = aws_iam_role.ecs_xray_task_role.name
   policy_arn = "arn:aws:iam::aws:policy/AWSXRayDaemonWriteAccess"
 }
+
+# secrets iam roles
+resource "aws_iam_role_policy" "secrets_access" {
+  name = "secrets-access-policy"
+  role = aws_iam_role.ecs_execution_role.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Effect = "Allow"
+      Action = [
+        "secretsmanager:GetSecretValue"
+      ]
+      Resource = [
+        "arn:aws:secretsmanager:us-east-1:YOUR_AWS_ACCOUNT:secret:YOUR_SECRET_NAME*"
+      ]
+    }]
+  })
+}

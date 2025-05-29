@@ -79,6 +79,14 @@ resource "aws_ecs_task_definition" "app" {
         value = var.MONGO_URI
       }
     ]
+    secrets = [
+          {
+            name      = "MONGO_URI",
+            valueFrom = "arn:aws:secretsmanager:us-east-1:YOUR_AWS_ACCOUNT:secret:YOUR_SECRET_NAME"
+          }
+        ]
+
+
     logConfiguration = {
       logDriver = "awslogs"
       options = {
