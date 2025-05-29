@@ -1,15 +1,15 @@
 resource "aws_lb" "app" {
-  name               = "${var.name_prefix}-app-lb"
+  name               = "${var.name_prefix}${random_id.suffix.hex}-app-lb"
   internal           = false
   load_balancer_type = "application"
   security_groups    = [aws_security_group.alb.id]
-  subnets            =  var.alb_subnet_ids # data.aws_subnets.public[0].id 
-  
+  subnets            = var.alb_subnet_ids # data.aws_subnets.public[0].id 
+
   enable_deletion_protection = false
 
   tags = {
     Environment = "production"
-    Application = "nodejs-app"
+    Application = "${var.name_prefix}-app"
   }
 }
 
@@ -17,7 +17,7 @@ resource "aws_lb_target_group" "app" {
   name        = "${var.name_prefix}-app-tg"
   port        = 5000
   protocol    = "HTTP"
-  vpc_id      =  var.vpc_id # aws_vpc.main.id
+  vpc_id      = var.vpc_id # aws_vpc.main.id
   target_type = "ip"
 
   health_check {
@@ -35,8 +35,8 @@ resource "aws_lb_listener" "app" {
   load_balancer_arn = aws_lb.app.arn
   port              = 80
   protocol          = "HTTP"
-  
- 
+
+
   default_action {
     type             = "forward"
     target_group_arn = aws_lb_target_group.app.arn
@@ -44,7 +44,7 @@ resource "aws_lb_listener" "app" {
 }
 
 resource "aws_security_group" "alb" {
-  name        = "${var.name_prefix}-alb-sg"
+  name        = "${var.name_prefix}-app-alb-sg"
   description = "Allow HTTP/HTTPS inbound traffic"
   vpc_id      = var.vpc_id #aws_vpc.main.id 
 
