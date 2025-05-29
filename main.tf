@@ -14,6 +14,16 @@ provider "aws" {
 resource "random_id" "suffix" {
   byte_length = 4
 }
+
+## reference by data to tf-secrets 
+data "aws_secretsmanager_secret" "mongodb" {
+  name = "prod/mongodb_uri"  # Must match the name in tf-secrets
+}
+## reference the secret version
+data "aws_secretsmanager_secret_version" "mongodb" {
+  secret_id = data.aws_secretsmanager_secret.mongodb.id
+}
+
 module "ecs" {
   source  = "terraform-aws-modules/ecs/aws"
   version = "~> 5.0"
@@ -55,6 +65,8 @@ resource "aws_cloudwatch_log_group" "xray" {
   name              = "/ecs/${var.name_prefix}-xray-daemon"
   retention_in_days = 30
 }
+
+# task_definition / container_definitions 
 resource "aws_ecs_task_definition" "app" {
   family                   = "${var.name_prefix}-app-task"
   network_mode             = "awsvpc"
@@ -78,15 +90,11 @@ resource "aws_ecs_task_definition" "app" {
         name  = "MONGODB_ATLAS_URI"
         value = var.MONGO_URI
       }
-    ]
-    secrets = [
-          {
+    ] ## secrets for app
+    secrets = [{
             name      = "MONGO_URI",
-            valueFrom = "arn:aws:secretsmanager:us-east-1:YOUR_AWS_ACCOUNT:secret:YOUR_SECRET_NAME"
-          }
-        ]
-
-
+            valueFrom = data.aws_secretsmanager_secret.mongodb.arn 
+          }]
     logConfiguration = {
       logDriver = "awslogs"
       options = {

@@ -67,7 +67,7 @@ resource "aws_iam_role_policy_attachment" "xray_write_access" {
   policy_arn = "arn:aws:iam::aws:policy/AWSXRayDaemonWriteAccess"
 }
 
-# secrets iam roles
+## secrets iam roles
 resource "aws_iam_role_policy" "secrets_access" {
   name = "secrets-access-policy"
   role = aws_iam_role.ecs_execution_role.id
@@ -77,11 +77,10 @@ resource "aws_iam_role_policy" "secrets_access" {
     Statement = [{
       Effect = "Allow"
       Action = [
-        "secretsmanager:GetSecretValue"
+        "secretsmanager:GetSecretValue",
+        "secretsmanager:DescribeSecret"
       ]
-      Resource = [
-        "arn:aws:secretsmanager:us-east-1:YOUR_AWS_ACCOUNT:secret:YOUR_SECRET_NAME*"
-      ]
+      Resource = [data.aws_secretsmanager_secret.mongodb.arn] 
     }]
   })
 }
