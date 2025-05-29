@@ -1,5 +1,5 @@
 resource "aws_iam_role" "ecs_execution_role" {
-  name = "ecs-execution-role"
+  name = "ecs-execution-role${terraform.workspace}"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
