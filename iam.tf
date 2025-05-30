@@ -1,5 +1,5 @@
-resource "aws_iam_role" "ecs_execution_role" {
-  name = "ecs-execution-role-${terraform.workspace}"
+resource "aws_iam_role" "ecs_task_execution_role" {
+  name = "ecs-task-execution-role-${terraform.workspace}"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -20,7 +20,7 @@ resource "aws_iam_role" "ecs_execution_role" {
 # Permissions for CloudWatch
 resource "aws_iam_role_policy" "ecs_logging" {
   name = "ecs-execution-logs"
-  role = aws_iam_role.ecs_execution_role.name
+  role = aws_iam_role.ecs_task_execution_role.name
 
   policy = jsonencode({
     Version = "2012-10-17",
@@ -32,7 +32,7 @@ resource "aws_iam_role_policy" "ecs_logging" {
           "logs:PutLogEvents"
           ],
         Resource = [
-          "${aws_cloudwatch_log_group.app.arn}:*",
+          "${data.aws_cloudwatch_log_group.ecs_logs.arn}:*",
           "${aws_cloudwatch_log_group.xray.arn}:*"
         ] #"arn:aws:logs:us-east-1:255945442255:log-group:/ecs/${var.name_prefix}-app:*"
       }
@@ -65,7 +65,7 @@ resource "aws_iam_role" "ecs_xray_task_role" {
 
 ## Attach ECR, Logging policy
 resource "aws_iam_role_policy_attachment" "ecs_execution_role_ecr" {
-  role       = aws_iam_role.ecs_execution_role.name
+  role       = aws_iam_role.ecs_task_execution_role.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
 
@@ -77,17 +77,15 @@ resource "aws_iam_role_policy_attachment" "ecs_task_role_ecr" {
 ## secrets iam roles
 resource "aws_iam_role_policy" "secrets_access" {
   name = "secrets-access-policy"
-  role = aws_iam_role.ecs_execution_role.id
+  role = aws_iam_role.ecs_task_execution_role.name
 
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [{
       Effect = "Allow"
-      Action = [
-        "secretsmanager:GetSecretValue",
-        "secretsmanager:DescribeSecret"
-      ]
-      Resource = [data.aws_secretsmanager_secret.mongodb.arn] 
+      Action = "secretsmanager:GetSecretValue"
+      
+      Resource = [data.aws_secretsmanager_secret.mongo_uri.arn] 
     }]
   })
 }

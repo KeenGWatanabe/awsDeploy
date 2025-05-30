@@ -1,7 +1,7 @@
 terraform {
   backend "s3" {
     bucket         = "ce-grp-4.tfstate-backend.com"
-    key            = "secrets/terraform.tfstate"
+    key            = "secrets1/terraform.tfstate"
     region         = "us-east-1"
     dynamodb_table = "ce-grp-4-terraform-state-locks" # Critical for locking
   }
@@ -16,14 +16,14 @@ resource "random_id" "suffix" {
 }
 
 ## reference by data to tf-secrets
-data "aws_secretsmanager_secret" "mongodb" {
-  # arn = "arn:aws:secretsmanager:us-east-1:255945442255:secret:prod/mongodb_uri-ANu39I"
-  name = "prod/mongodb_uri" # Adjust to your secret name
+data "aws_secretsmanager_secret" "mongo_uri" {
+  #arn = "arn:aws:secretsmanager:us-east-1:255945442255:secret:prod/mongodb_uri-ANu39I"
+  name = "prod/mongodb_uri"
 }
  
 ## reference the secret version
-data "aws_secretsmanager_secret_version" "mongodb" {
-  secret_id = data.aws_secretsmanager_secret.mongodb.id
+data "aws_secretsmanager_secret_version" "mongo_uri" {
+  secret_id = data.aws_secretsmanager_secret.mongo_uri.id
 }
 
 module "ecs" {
@@ -59,9 +59,12 @@ module "ecs" {
   }
 }
 # Create CLoudWatch Log Group for taskDef reference
-resource "aws_cloudwatch_log_group" "app" {
-  name              = "/ecs/${var.name_prefix}-app"
-  retention_in_days = 30
+# resource "aws_cloudwatch_log_group" "ecs_logs" {
+#   name              = "/ecs/${var.name_prefix}-app-service"
+#   retention_in_days = 30
+# }
+data "aws_cloudwatch_log_group" "ecs_logs" {
+  name = "/ecs/ce-grp-4t-app-service-f48ddcab"
 }
 resource "aws_cloudwatch_log_group" "xray" {
   name              = "/ecs/${var.name_prefix}-xray-daemon"
@@ -75,7 +78,7 @@ resource "aws_ecs_task_definition" "app" {
   requires_compatibilities = ["FARGATE"]
   cpu                      = 1024 #512  
   memory                   = 2048 #1024 
-  execution_role_arn       = aws_iam_role.ecs_execution_role.arn
+  execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn
   task_role_arn           = aws_iam_role.ecs_xray_task_role.arn
 
   container_definitions = jsonencode([
@@ -87,21 +90,16 @@ resource "aws_ecs_task_definition" "app" {
       containerPort = 5000
       hostPort      = 5000
     }]
-    environment = [
-      {
-        name  = "MONGODB_ATLAS_URI"
-        value = var.MONGO_URI
-      }
-    ] ## secrets for app
+    ## secrets for app
     secrets = [{
-            name      = "MONGO_URI",
-            valueFrom = data.aws_secretsmanager_secret.mongodb.arn 
+            name      = "MONGODB_ATLAS_URI",
+            valueFrom = data.aws_secretsmanager_secret.mongo_uri.arn 
           }]
     logConfiguration = {
       logDriver = "awslogs"
       options = {
-        "awslogs-group"         = "/ecs/app-${terraform.workspace}", # aws_cloudwatch_log_group.app.name #"/ecs/${var.name_prefix}-app"
-        "awslogs-region"        = "us-east-1",
+        "awslogs-group"         = data.aws_cloudwatch_log_group.ecs_logs.name #"/ecs/${var.name_prefix}-app-service-f48ddcab" 
+        "awslogs-region"        = "us-east-1"
         "awslogs-stream-prefix" = "ecs"
       }
     }
@@ -148,7 +146,7 @@ resource "aws_ecs_service" "app" {
 
   depends_on = [
     aws_lb_listener.app,
-    aws_cloudwatch_log_group.app,
+    data.aws_cloudwatch_log_group.ecs_logs,
     aws_cloudwatch_log_group.xray
     ]
 
