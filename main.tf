@@ -17,7 +17,8 @@ resource "random_id" "suffix" {
 
 ## reference by data to tf-secrets
 data "aws_secretsmanager_secret" "mongodb" {
-  arn = "arn:aws:secretsmanager:us-east-1:255945442255:secret:prod/mongodb_uri-ANu39I"
+  # arn = "arn:aws:secretsmanager:us-east-1:255945442255:secret:prod/mongodb_uri-ANu39I"
+  name = "prod/mongodb_uri" # Adjust to your secret name
 }
  
 ## reference the secret version
@@ -99,8 +100,8 @@ resource "aws_ecs_task_definition" "app" {
     logConfiguration = {
       logDriver = "awslogs"
       options = {
-        "awslogs-group"         = aws_cloudwatch_log_group.app.name #"/ecs/${var.name_prefix}-app"
-        "awslogs-region"        = "us-east-1"
+        "awslogs-group"         = "/ecs/app-${terraform.workspace}", # aws_cloudwatch_log_group.app.name #"/ecs/${var.name_prefix}-app"
+        "awslogs-region"        = "us-east-1",
         "awslogs-stream-prefix" = "ecs"
       }
     }

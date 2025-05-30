@@ -9,3 +9,5 @@ alb_subnet_ids = ["subnet-053005045ad57eda7", "subnet-016bdf244ef5c8ccb"]
 private_subnet_ids = ["subnet-066df6ead2cde3a2d", "subnet-01912952711b4886e"]
 
 name_prefix = "ce-grp-4s"
+
+#test docker run -e MONGODB_URI="mongodb+srv://user:1234@tasks.hqybvw0.mongodb.net/?retryWrites=true&w=majority&appName=tasks" -p 5000:5000 255945442255.dkr.ecr.us-east-1.amazonaws.com/ce-grp-4s-app:latest
