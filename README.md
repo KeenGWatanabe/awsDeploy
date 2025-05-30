@@ -22,3 +22,7 @@ Navigate to ECS and check status and public DNS url
  > pte subnets VPC endpoints,NAT reach Aws Secrets Mgr
  > missing iam permissions secretsmanager:GetSecretValue
  > security grp might block outbound traffic https: port 443 to Aws Secrets Mgr
+
+
+ image
+ 255945442255.dkr.ecr.us-east-1.amazonaws.com/ce-grp-4s-app

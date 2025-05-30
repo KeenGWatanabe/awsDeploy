@@ -15,10 +15,11 @@ resource "random_id" "suffix" {
   byte_length = 4
 }
 
-## reference by data to tf-secrets 
+## reference by data to tf-secrets
 data "aws_secretsmanager_secret" "mongodb" {
-  name = "prod/mongodb_uri"  # Must match the name in tf-secrets
+  arn = "arn:aws:secretsmanager:us-east-1:255945442255:secret:prod/mongodb_uri-ANu39I"
 }
+ 
 ## reference the secret version
 data "aws_secretsmanager_secret_version" "mongodb" {
   secret_id = data.aws_secretsmanager_secret.mongodb.id
