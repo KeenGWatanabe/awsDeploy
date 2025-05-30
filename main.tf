@@ -69,7 +69,7 @@ resource "aws_cloudwatch_log_group" "xray" {
 
 # task_definition / container_definitions 
 resource "aws_ecs_task_definition" "app" {
-  family                   = "${var.name_prefix}-app-task"
+  family                   = "${var.name_prefix}-app-task-${terraform.workspace}"
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
   cpu                      = 1024 #512  

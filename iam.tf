@@ -58,14 +58,21 @@ resource "aws_iam_role" "ecs_xray_task_role" {
   })
 }
 
-resource "aws_iam_role_policy_attachment" "xray_write_access" {
-  role       = aws_iam_role.ecs_xray_task_role.name
-  policy_arn = "arn:aws:iam::aws:policy/AWSXRayDaemonWriteAccess"
-}
-## Attach the standard ECS task execution policy (for ECR, logging)
+# resource "aws_iam_role_policy_attachment" "xray_write_access" {
+#   role       = aws_iam_role.ecs_xray_task_role.name
+#   policy_arn = "arn:aws:iam::aws:policy/AWSXRayDaemonWriteAccess"
+# }
+
+## Attach ECR, Logging policy
 resource "aws_iam_role_policy_attachment" "ecs_execution_role_ecr" {
   role       = aws_iam_role.ecs_execution_role.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
+}
+
+## Add ECR read for task role if needed
+resource "aws_iam_role_policy_attachment" "ecs_task_role_ecr" {
+  role       = aws_iam_role.ecs_xray_task_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
 }
 ## secrets iam roles
 resource "aws_iam_role_policy" "secrets_access" {
