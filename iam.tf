@@ -15,7 +15,11 @@ resource "aws_iam_role" "ecs_task_execution_role" {
   })
 }
 
-
+## Attach ECR, Logging policy
+resource "aws_iam_role_policy_attachment" "ecs_execution_role_ecr" {
+  role       = aws_iam_role.ecs_task_execution_role.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
+}
 
 # Permissions for CloudWatch
 resource "aws_iam_role_policy" "ecs_logging" {
@@ -32,7 +36,7 @@ resource "aws_iam_role_policy" "ecs_logging" {
           "logs:PutLogEvents"
           ],
         Resource = [
-          "${data.aws_cloudwatch_log_group.ecs_logs.arn}:*",
+          "${aws_cloudwatch_log_group.ecs_logs.arn}:*",
           "${aws_cloudwatch_log_group.xray.arn}:*"
         ] #"arn:aws:logs:us-east-1:255945442255:log-group:/ecs/${var.name_prefix}-app:*"
       }
@@ -63,11 +67,7 @@ resource "aws_iam_role" "ecs_xray_task_role" {
 #   policy_arn = "arn:aws:iam::aws:policy/AWSXRayDaemonWriteAccess"
 # }
 
-## Attach ECR, Logging policy
-resource "aws_iam_role_policy_attachment" "ecs_execution_role_ecr" {
-  role       = aws_iam_role.ecs_task_execution_role.name
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
-}
+
 
 ## Add ECR read for task role if needed
 resource "aws_iam_role_policy_attachment" "ecs_task_role_ecr" {
