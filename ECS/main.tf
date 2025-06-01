@@ -17,7 +17,7 @@ resource "random_id" "suffix" {
 
 ## reference by data to tf-secrets ##########################
 data "aws_secretsmanager_secret" "mongodb_uri" {
-  #arn = "arn:aws:secretsmanager:us-east-1:255945442255:secret:prod/mongodb_uri-ANu39I"
+  # arn = "arn:aws:secretsmanager:us-east-1:255945442255:secret:prod/mongodb_uri-QX0TxF"
   name = "prod/mongodb_uri"
 }
  
@@ -65,7 +65,7 @@ module "ecs" {
 # }
 data "aws_cloudwatch_log_group" "ecs_logs" {
   name = "/ecs/ce-grp-4t-app-service-f48ddcab"
-  retention_in_days = 30
+  # retention_in_days = 30
 }
 resource "aws_cloudwatch_log_group" "xray" {
   name              = "/ecs/${var.name_prefix}-xray-daemon"
@@ -91,17 +91,19 @@ resource "aws_ecs_task_definition" "app" {
       hostPort      = 5000
     }]
     ## secrets for app, g4infra using "environment ln77"
+   
     secrets = [
       {
         name  = "MONGODB_URI",
-        value = data.aws_secretsmanager_secret.mongodb_uri.arn 
-        # valueFrom = data.aws_secretsmanager_secret_version.mongodb_uri.arn #ln20
+        # value = data.aws_secretsmanager_secret.mongodb_uri.arn
+        # valueFrom = "${data.aws_secretsmanager_secret.mongodb_uri.arn}:MONGODB_ATLAS_URI::"
+        valueFrom = "arn:aws:secretsmanager:us-east-1:255945442255:secret:prod/mongodb_uri-QX0TxF:MONGODB_URI::"
       }
     ]
     logConfiguration = {
       logDriver = "awslogs"
       options = {
-        "awslogs-group"         = aws_cloudwatch_log_group.ecs_logs.name #"/ecs/${var.name_prefix}-app-service-f48ddcab" #ln66
+        "awslogs-group"         = data.aws_cloudwatch_log_group.ecs_logs.name #"/ecs/${var.name_prefix}-app-service-f48ddcab" #ln66
         "awslogs-region"        = "us-east-1"
         "awslogs-stream-prefix" = "ecs"
       }

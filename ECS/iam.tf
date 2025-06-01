@@ -36,7 +36,7 @@ resource "aws_iam_role_policy" "ecs_logging" {
           "logs:PutLogEvents"
           ],
         Resource = [
-          "${aws_cloudwatch_log_group.ecs_logs.arn}:*",
+          "${data.aws_cloudwatch_log_group.ecs_logs.arn}:*",
           "${aws_cloudwatch_log_group.xray.arn}:*"
         ] #"arn:aws:logs:us-east-1:255945442255:log-group:/ecs/${var.name_prefix}-app:*"
       }
@@ -77,7 +77,7 @@ resource "aws_iam_role_policy" "ecs_secrets_access" {
     Version = "2012-10-17"
     Statement = [{
       Effect = "Allow"
-      Action = "secretsmanager:GetSecretValue"
+      Action = ["secretsmanager:GetSecretValue", "secretsmanager:DescribeSecret"],
       
       Resource = [data.aws_secretsmanager_secret.mongodb_uri.arn] 
     }]
@@ -87,5 +87,5 @@ resource "aws_iam_role_policy" "ecs_secrets_access" {
 ## Add ECR read for task role if needed
 resource "aws_iam_role_policy_attachment" "ecs_secrets_access" {
   role       = aws_iam_role.ecs_xray_task_role.name
-  policy_arn = aws_iam_role_policy.ecs_secrets_access.arn #policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
 }
