@@ -97,7 +97,7 @@ resource "aws_ecs_task_definition" "app" {
         name  = "MONGODB_URI",
         # value = data.aws_secretsmanager_secret.mongodb_uri.arn
         # valueFrom = "${data.aws_secretsmanager_secret.mongodb_uri.arn}:MONGODB_ATLAS_URI::"
-        valueFrom = "arn:aws:secretsmanager:us-east-1:255945442255:secret:prod/mongodb_uri-QX0TxF:MONGODB_URI::"
+        valueFrom = "prod/mongodb_uri"
       }
     ]
     logConfiguration = {

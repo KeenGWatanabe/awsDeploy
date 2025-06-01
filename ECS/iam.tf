@@ -79,8 +79,19 @@ resource "aws_iam_role_policy" "ecs_secrets_access" {
       Effect = "Allow"
       Action = ["secretsmanager:GetSecretValue", "secretsmanager:DescribeSecret"],
       
-      Resource = [data.aws_secretsmanager_secret.mongodb_uri.arn] 
-    }]
+      Resource = "arn:aws:secretsmanager:us-east-1:255945442255:secret:prod/mongodb_uri-QX0TxF" #[data.aws_secretsmanager_secret.mongodb_uri.arn] 
+    },
+    {
+        Action = [
+          "ecr:GetAuthorizationToken",
+          "ecr:BatchCheckLayerAvailability",
+          "ecr:GetDownloadUrlForLayer",
+          "ecr:BatchGetImage"
+        ]
+        Effect   = "Allow"
+        Resource = "*"
+      }
+    ]
   })
 }
 
