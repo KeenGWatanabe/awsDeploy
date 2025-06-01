@@ -1,5 +1,5 @@
 resource "aws_iam_role" "ecs_task_execution_role" {
-  name = "ecs-task-execution-role-${terraform.workspace}"
+  name = "ecs-task-execution-role-${var.name_prefix}"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -62,20 +62,14 @@ resource "aws_iam_role" "ecs_xray_task_role" {
   })
 }
 
-# resource "aws_iam_role_policy_attachment" "xray_write_access" {
-#   role       = aws_iam_role.ecs_xray_task_role.name
-#   policy_arn = "arn:aws:iam::aws:policy/AWSXRayDaemonWriteAccess"
-# }
-
-
-
-## Add ECR read for task role if needed
-resource "aws_iam_role_policy_attachment" "ecs_task_role_ecr" {
+resource "aws_iam_role_policy_attachment" "xray_write_access" {
   role       = aws_iam_role.ecs_xray_task_role.name
-  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
+  policy_arn = "arn:aws:iam::aws:policy/AWSXRayDaemonWriteAccess"
 }
+
+#####################secrets component######################
 ## secrets iam roles
-resource "aws_iam_role_policy" "secrets_access" {
+resource "aws_iam_role_policy" "ecs_secrets_access" {
   name = "secrets-access-policy"
   role = aws_iam_role.ecs_task_execution_role.name
 
@@ -85,7 +79,13 @@ resource "aws_iam_role_policy" "secrets_access" {
       Effect = "Allow"
       Action = "secretsmanager:GetSecretValue"
       
-      Resource = [data.aws_secretsmanager_secret.mongo_uri.arn] 
+      Resource = [data.aws_secretsmanager_secret.mongodb_uri.arn] 
     }]
   })
+}
+
+## Add ECR read for task role if needed
+resource "aws_iam_role_policy_attachment" "ecs_task_role_ecr" {
+  role       = aws_iam_role.ecs_xray_task_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
 }

@@ -1,6 +1,6 @@
 # How to reference in other places
 
-variable "MONGO_URI" {
+variable "MONGODB_URI" {
   description = "MongoDB Atlas connection URI"
   type        = string
   sensitive   = true

@@ -16,14 +16,14 @@ resource "random_id" "suffix" {
 }
 
 ## reference by data to tf-secrets ##########################
-data "aws_secretsmanager_secret" "mongo_uri" {
+data "aws_secretsmanager_secret" "mongodb_uri" {
   #arn = "arn:aws:secretsmanager:us-east-1:255945442255:secret:prod/mongodb_uri-ANu39I"
   name = "prod/mongodb_uri"
 }
  
 ## reference the secret version
-data "aws_secretsmanager_secret_version" "mongo_uri" {
-  secret_id = data.aws_secretsmanager_secret.mongo_uri.id
+data "aws_secretsmanager_secret_version" "mongodb_uri" {
+  secret_id = data.aws_secretsmanager_secret.mongodb_uri.id
 }
 #############################################################
 module "ecs" {
@@ -94,7 +94,7 @@ resource "aws_ecs_task_definition" "app" {
     secrets = [
       {
         name  = "MONGODB_ATLAS_URI",
-        value = data.aws_secretsmanager_secret.mongo_uri.arn 
+        value = data.aws_secretsmanager_secret.mongodb_uri.arn 
       }
     ]
     logConfiguration = {
@@ -164,6 +164,6 @@ resource "aws_ecr_repository" "app" {
 }
 
 # code base everything same as g4infra main.tf 
-# g4infra call mongo_uri in Environment
-# tfsecretsECS call mongo_uri in Secrets
+# g4infra call mongodb_uri in Environment
+# tfsecretsECS call mongodb_uri in Secrets
 # ln18-ln29 is secrets manager items
