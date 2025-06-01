@@ -169,4 +169,4 @@ resource "aws_ecr_repository" "app" {
 # code base everything same as g4infra main.tf 
 # g4infra call mongodb_uri in Environment
 # tfsecretsECS call mongodb_uri in Secrets
-# ln18-ln29 is secrets manager items
+# ln18-ln29 is secrets manager items 
