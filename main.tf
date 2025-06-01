@@ -95,6 +95,7 @@ resource "aws_ecs_task_definition" "app" {
       {
         name  = "MONGODB_URI",
         value = data.aws_secretsmanager_secret.mongodb_uri.arn 
+        # valueFrom = data.aws_secretsmanager_secret_version.mongodb_uri.arn #ln20
       }
     ]
     logConfiguration = {

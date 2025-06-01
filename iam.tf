@@ -70,7 +70,7 @@ resource "aws_iam_role_policy_attachment" "xray_write_access" {
 #####################secrets component######################
 ## secrets iam roles
 resource "aws_iam_role_policy" "ecs_secrets_access" {
-  name = "secrets-access-policy"
+  name = "ecs_secrets-access"
   role = aws_iam_role.ecs_task_execution_role.name
 
   policy = jsonencode({
@@ -85,7 +85,7 @@ resource "aws_iam_role_policy" "ecs_secrets_access" {
 }
 
 ## Add ECR read for task role if needed
-resource "aws_iam_role_policy_attachment" "ecs_task_role_ecr" {
+resource "aws_iam_role_policy_attachment" "ecs_secrets_access" {
   role       = aws_iam_role.ecs_xray_task_role.name
-  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
+  policy_arn = aws_iam_role_policy.ecs_secrets_access.arn #policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
 }
