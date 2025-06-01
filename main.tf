@@ -93,7 +93,7 @@ resource "aws_ecs_task_definition" "app" {
     ## secrets for app, g4infra using "environment ln77"
     secrets = [
       {
-        name  = "MONGODB_ATLAS_URI",
+        name  = "MONGODB_URI",
         value = data.aws_secretsmanager_secret.mongodb_uri.arn 
       }
     ]
