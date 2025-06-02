@@ -24,3 +24,10 @@ variable "private_subnet_ids" {
   description = "List of private subnet IDs for ECS tasks"
   type        = list(string)
 }
+
+variable "region" {
+  description = "AWS region where resources will be created"
+  type        = string
+  default     = "us-east-1"
+  
+}

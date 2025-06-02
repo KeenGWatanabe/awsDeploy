@@ -95,16 +95,17 @@ resource "aws_ecs_task_definition" "app" {
     secrets = [
       {
         name  = "MONGODB_URI",
-        # value = data.aws_secretsmanager_secret.mongodb_uri.arn
-        # valueFrom = "${data.aws_secretsmanager_secret.mongodb_uri.arn}:MONGODB_ATLAS_URI::"
-        valueFrom = "prod/mongodb_uri"
+        # valueFrom = "arn:aws:secretsmanager:us-east-1:255945442255:secret:prod/mongodb_uri-QX0TxF"
+        # valueFrom = "${data.aws_secretsmanager_secret.mongodb_uri.arn}:MONGODB_URI::"
+        valueFrom = "arn:aws:secretsmanager:${var.region}:${data.aws_caller_identity.current.account_id}:secret:prod/mongodb_uri"
+        #valueFrom = "prod/mongodb_uri"
       }
     ]
     logConfiguration = {
       logDriver = "awslogs"
       options = {
         "awslogs-group"         = data.aws_cloudwatch_log_group.ecs_logs.name #"/ecs/${var.name_prefix}-app-service-f48ddcab" #ln66
-        "awslogs-region"        = "us-east-1"
+        "awslogs-region"        = var.region
         "awslogs-stream-prefix" = "ecs"
       }
     }
@@ -121,7 +122,7 @@ resource "aws_ecs_task_definition" "app" {
         logDriver = "awslogs",
         options = {
           "awslogs-group" = aws_cloudwatch_log_group.xray.name #"/ecs/xray-daemon", ln69
-          "awslogs-region" = "us-east-1",
+          "awslogs-region" = var.region,
           "awslogs-stream-prefix" = "xray"
         }
       }
