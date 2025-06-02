@@ -71,15 +71,19 @@ resource "aws_iam_role_policy_attachment" "xray_write_access" {
 ## secrets iam roles
 resource "aws_iam_role_policy" "ecs_secrets_access" {
   name = "ecs_secrets-access"
-  role = aws_iam_role.ecs_task_execution_role.name
+  role = aws_iam_role.ecs_xray_task_role.name
 
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [{
       Effect = "Allow"
-      Action = ["secretsmanager:GetSecretValue", "secretsmanager:DescribeSecret"],
-      
-      Resource = "arn:aws:secretsmanager:us-east-1:255945442255:secret:prod/mongodb_uri-QX0TxF" #[data.aws_secretsmanager_secret.mongodb_uri.arn] 
+      Action = [
+        "secretsmanager:GetSecretValue", "secretsmanager:DescribeSecret"
+        ],
+      Resource = [
+        "arn:aws:secretsmanager:${var.region}:${data.aws_caller_identity.current.account_id}:secret:prod/mongodb_uri*",
+        "arn:aws:secretsmanager:${var.region}:${data.aws_caller_identity.current.account_id}:secret:prod/mongodb_uri-*"
+        ]  #[data.aws_secretsmanager_secret.mongodb_uri.arn] 
     },
     {
         Action = [
@@ -90,6 +94,14 @@ resource "aws_iam_role_policy" "ecs_secrets_access" {
         ]
         Effect   = "Allow"
         Resource = "*"
+      },
+      {
+        Effect = "Allow",
+        Action = [
+          "xray:PutTraceSegments",
+          "xray:PutTelemetryRecords"
+        ],
+        Resource = "*"
       }
     ]
   })
@@ -99,4 +111,38 @@ resource "aws_iam_role_policy" "ecs_secrets_access" {
 resource "aws_iam_role_policy_attachment" "ecs_secrets_access" {
   role       = aws_iam_role.ecs_xray_task_role.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
+}
+
+## Deepseek addition
+resource "aws_iam_role_policy" "ecs_execution_secrets" {
+  name = "ecs_execution_secrets"
+  role = aws_iam_role.ecs_task_execution_role.id
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect = "Allow",
+        Action = [
+          "secretsmanager:GetSecretValue",
+          "secretsmanager:DescribeSecret"
+        ],
+        Resource = [
+          "arn:aws:secretsmanager:${var.region}:${data.aws_caller_identity.current.account_id}:secret:prod/mongodb_uri*"
+        ]
+      },
+      {
+        Effect = "Allow",
+        Action = [
+          "ecr:GetAuthorizationToken",
+          "ecr:BatchCheckLayerAvailability",
+          "ecr:GetDownloadUrlForLayer",
+          "ecr:BatchGetImage",
+          "logs:CreateLogStream",
+          "logs:PutLogEvents"
+        ],
+        Resource = "*"
+      }
+    ]
+  })
 }
