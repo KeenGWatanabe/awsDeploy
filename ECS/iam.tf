@@ -36,7 +36,7 @@ resource "aws_iam_role_policy" "ecs_logging" {
           "logs:PutLogEvents"
           ],
         Resource = [
-          "${data.aws_cloudwatch_log_group.ecs_logs.arn}:*",
+          "${aws_cloudwatch_log_group.ecs_logx.arn}:*",
           "${aws_cloudwatch_log_group.xray.arn}:*"
         ] #"arn:aws:logs:us-east-1:255945442255:log-group:/ecs/${var.name_prefix}-app:*"
       }
@@ -90,7 +90,9 @@ resource "aws_iam_role_policy" "ecs_secrets_access" {
           "ecr:GetAuthorizationToken",
           "ecr:BatchCheckLayerAvailability",
           "ecr:GetDownloadUrlForLayer",
-          "ecr:BatchGetImage"
+          "ecr:BatchGetImage",
+          "logs:CreateLogStream",
+          "logs:PutLogEvents"
         ]
         Effect   = "Allow"
         Resource = "*"
@@ -127,9 +129,8 @@ resource "aws_iam_role_policy" "ecs_execution_secrets" {
           "secretsmanager:GetSecretValue",
           "secretsmanager:DescribeSecret"
         ],
-        Resource = [
-          "arn:aws:secretsmanager:${var.region}:${data.aws_caller_identity.current.account_id}:secret:prod/mongodb_uri*"
-        ]
+        Resource = " arn:aws:secretsmanager:us-east-1:255945442255:secret:prod/mongo_uri*"
+        # ["arn:aws:secretsmanager:${var.region}:${data.aws_caller_identity.current.account_id}:secret:prod/mongodb_uri"      
       },
       {
         Effect = "Allow",
