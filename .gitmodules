@@ -4,3 +4,6 @@
 [submodule "APP"]
 	path = APP
 	url = https://github.com/KeenGWatanabe/tf-secretsAPP
+[submodule "backend"]
+	path = backend
+	url = https://github.com/KeenGWatanabe/tf-backend
