@@ -7,3 +7,6 @@
 [submodule "backend"]
 	path = backend
 	url = https://github.com/KeenGWatanabe/tf-backend
+[submodule "vpc"]
+	path = vpc
+	url = https://github.com/KeenGWatanabe/tf-vpc-nat-eip-ec2
