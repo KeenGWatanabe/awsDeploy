@@ -17,7 +17,7 @@ $ git push origin -u main
 
 # cli force deployment
 $ aws ecs update-service --cluster <cluster-name> --service <service-name> --force-new-deployment
-$ aws ecs update-service --cluster ce-grp-4s-app-cluster --service ce-grp-4s-app-service-ee2a02f2 --force-new-deployment
+$ aws ecs update-service --cluster ce-grp-4t-app-cluster --service ce-grp-4t-app-service-f48ddcab --force-new-deployment
 
 # Explanation
 Yes! The `prod.tfvars` and `dev.tfvars` files themselves **do not** directly control separate Terraform state files (`.tfstate`), but they are often used in combination with **workspaces or separate backends** to isolate state between environments (dev/prod). Here’s how it works:
