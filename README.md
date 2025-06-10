@@ -1,3 +1,10 @@
+This folder with submodules APP, backend, secrets, vpc with ECS as the encompassing folder
+MAIN branch 
+SECRETS branch - secrets manager configuration
+BASIC branch - basic configuration
+
+stage: compiling relevant codes for BASIC BRANCH (remove secrets)
+---------------------
 Run secrets, update iam.tf line 44 for mongo arn
 
 # terraform sequence
