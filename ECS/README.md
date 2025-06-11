@@ -1,6 +1,7 @@
 change main.tf ln 95 - valueFrom =""
 change iam.tf ln84 - resource = [""]
 change iam.tf ln138 - resource = [""]
+
 # so is the prod.tfvars and dev.tfvars for have separate tfstate files when terraforming?
 workspace
 
@@ -27,3 +28,6 @@ aws ecs update-service --cluster ce-grp-4x-app-cluster --service ce-grp-4x-app-s
 
 ecs_cluster_name = "secrets-app-cluster"
 service_url = "secrets72bd4159-app-lb-1709309573.us-east-1.elb.amazonaws.com"
+
+EC2 ALB map
+![ALB](image.png)
