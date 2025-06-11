@@ -1,19 +1,27 @@
 # so is the prod.tfvars and dev.tfvars for have separate tfstate files when terraforming?
-workspace
 
+# workspace
+```
 terraform pull origin main
-$ terraform init
-$ terraform workspace new secrets #do once only
-$ terraform workspace select secrets
-$ terraform workspace list #just to check workspace at
-$ terraform plan -var-file="secrets.tfvars"
-$ terraform apply -var-file="secrets.tfvars"
-----------------------------------------------------
+terraform init
+terraform workspace new secrets #do once only
+terraform workspace select secrets
+terraform workspace list #just to check workspace at
+terraform plan -var-file="secrets.tfvars"
+terraform apply -var-file="secrets.tfvars"
+```
+-------------------------------------------------------
 
-$ git add .
-$ git commit -m "msg"  
-$ git push origin -u main
-
+# branches
+main
+basic - uses no secretsmanager for mongodb_uri
+secret - uses secretsmanager for mongodb_uri
+```
+git add .
+git commit -m "msg"  
+git push origin -u basic / secret
+```
+--------------------------------------------------------
 
 # cli force deployment
 $ aws ecs update-service --cluster <cluster-name> --service <service-name> --force-new-deployment
