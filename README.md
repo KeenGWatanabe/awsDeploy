@@ -3,33 +3,17 @@ MAIN branch
 SECRETS branch - secrets manager configuration
 BASIC branch - basic configuration
 
-stage: compiling relevant codes for BASIC BRANCH (remove secrets)
+
 ---------------------
-Run secrets, update iam.tf line 44 for mongo arn
+# SEQUENCE RUN
+file              |    amendments          |      outputs
+backend           |    name_prefix         |      bucket name, dynamodb name
+vpc               |    name_prefix         |  vpc id, subnets id, endpoint id
+secrets mgr       |    name_prefix         |  secrets_arn, secrets_name 
+ecs               |    main.tf ln95        |
+                       iam.tf ln84         |
+                       iam.tf ln138        | 
+                       del roles if exists |
 
-# terraform sequence
-$ terraform init
-($ terraform apply -target=module.ecr  OR) #ignore this line
-$ terraform apply -target=aws_ecr_repository.app
-
-will apply to the following:
-module "ecr" {
-  source = "./modules/ecr"
-  ...
-}
-
-# docker and push image to ecr
-
-$ terraform apply 
-
-Navigate to ECS and check status and public DNS url
-
-# deepseek
- SECRETS STATUS, CHECK 
- > pte subnets VPC endpoints,NAT reach Aws Secrets Mgr
- > missing iam permissions secretsmanager:GetSecretValue
- > security grp might block outbound traffic https: port 443 to Aws Secrets Mgr
-
-
- image
- 255945442255.dkr.ecr.us-east-1.amazonaws.com/ce-grp-4s-app
+app               | connect.js-secrets_name          
+                  | workflows-ECR name, Container name
