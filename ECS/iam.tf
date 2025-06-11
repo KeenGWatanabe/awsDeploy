@@ -14,19 +14,17 @@ resource "aws_iam_role" "ecs_task_execution_role" {
     ]
   })
 }
-data "aws_iam_role" "ecs_task_execution_role" {
-  name = aws_iam_role.ecs_task_execution_role.name
-}
+
 ## Attach ECR, Logging policy
 resource "aws_iam_role_policy_attachment" "ecs_execution_role_policy" {
-  role       = data.aws_iam_role.ecs_task_execution_role.name
+  role       = aws_iam_role.ecs_task_execution_role.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
 
 # Permissions for CloudWatch
 resource "aws_iam_role_policy" "ecs_logging" {
   name = "ecs-execution-logs"
-  role = data.aws_iam_role.ecs_task_execution_role.name
+  role = aws_iam_role.ecs_task_execution_role.name
 
   policy = jsonencode({
     Version = "2012-10-17",
@@ -63,11 +61,9 @@ resource "aws_iam_role" "ecs_xray_task_role" {
     ]
   })
 }
-data "aws_iam_role" "ecs_xray_task_role" {
-  name = aws_iam_role.ecs_xray_task_role.name
-}
+
 resource "aws_iam_role_policy_attachment" "xray_write_access" {
-  role       = data.aws_iam_role.ecs_xray_task_role.name
+  role       = aws_iam_role.ecs_xray_task_role.name
   policy_arn = "arn:aws:iam::aws:policy/AWSXRayDaemonWriteAccess"
 }
 
@@ -75,7 +71,7 @@ resource "aws_iam_role_policy_attachment" "xray_write_access" {
 ## secrets iam roles
 resource "aws_iam_role_policy" "ecs_secrets_access" {
   name = "ecs_secrets-access"
-  role = data.aws_iam_role.ecs_task_execution_role.id
+  role = aws_iam_role.ecs_task_execution_role.id
 
   policy = jsonencode({
     Version = "2012-10-17"
@@ -120,14 +116,14 @@ resource "aws_iam_role_policy" "ecs_secrets_access" {
 
 ## Add ECR read for task role if needed
 resource "aws_iam_role_policy_attachment" "ecs_secrets_access" {
-  role       = data.aws_iam_role.ecs_xray_task_role.name
+  role       = aws_iam_role.ecs_xray_task_role.name
   policy_arn = "arn:aws:iam::aws:policy/SecretsManagerReadWrite"
 }
 
 ## Deepseek addition
 resource "aws_iam_role_policy" "ecs_execution_secrets" {
   name = "ecs_execution_secrets"
-  role = data.aws_iam_role.ecs_xray_task_role.name
+  role = aws_iam_role.ecs_xray_task_role.name
 
   policy = jsonencode({
     Version = "2012-10-17",
@@ -166,6 +162,6 @@ resource "aws_iam_role_policy" "ecs_execution_secrets" {
 }
 
 resource "aws_iam_role_policy_attachment" "ecs_execution_secrets" {
-  role       = data.aws_iam_role.ecs_xray_task_role.name
+  role       = aws_iam_role.ecs_xray_task_role.name
   policy_arn = "arn:aws:iam::aws:policy/SecretsManagerReadWrite"
 }

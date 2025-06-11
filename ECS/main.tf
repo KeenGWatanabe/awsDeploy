@@ -75,8 +75,8 @@ resource "aws_ecs_task_definition" "app" {
   requires_compatibilities = ["FARGATE"]
   cpu                      = 256 #512  
   memory                   = 512 #1024 
-  execution_role_arn       = data.aws_iam_role.ecs_task_execution_role.arn
-  task_role_arn            = data.aws_iam_role.ecs_xray_task_role.arn
+  execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn
+  task_role_arn            = aws_iam_role.ecs_xray_task_role.arn
 
   container_definitions = jsonencode([
     {
@@ -92,7 +92,7 @@ resource "aws_ecs_task_definition" "app" {
     secrets = [
       {
         name  = "MONGODB_URI",
-        valueFrom = "arn:aws:secretsmanager:us-east-1:255945442255:secret:code/mongodb_uri-rRrHHI:MONGODB_URI::"
+        valueFrom = "arn:aws:secretsmanager:us-east-1:255945442255:secret:code/mongodb_uri-wVqSQk:MONGODB_URI::"
     #     # valueFrom = "${data.aws_secretsmanager_secret.mongodb_uri.arn}:MONGODB_URI::"
     #     #valueFrom = "arn:aws:secretsmanager:${var.region}:${data.aws_caller_identity.current.account_id}:secret:test/mongodb_uri"
     #     #valueFrom = "test/mongodb_uri"
