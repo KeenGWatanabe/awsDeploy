@@ -96,9 +96,9 @@ resource "aws_ecs_task_definition" "app" {
       {
         name  = "MONGODB_URI",
         valueFrom = "arn:aws:secretsmanager:us-east-1:255945442255:secret:test/mongodb_uri-0qxinJ:MONGODB_URI::"
-        # valueFrom = "${data.aws_secretsmanager_secret.mongodb_uri.arn}:MONGODB_URI::"
-        #valueFrom = "arn:aws:secretsmanager:${var.region}:${data.aws_caller_identity.current.account_id}:secret:test/mongodb_uri"
-        #valueFrom = "test/mongodb_uri"
+    #     # valueFrom = "${data.aws_secretsmanager_secret.mongodb_uri.arn}:MONGODB_URI::"
+    #     #valueFrom = "arn:aws:secretsmanager:${var.region}:${data.aws_caller_identity.current.account_id}:secret:test/mongodb_uri"
+    #     #valueFrom = "test/mongodb_uri"
       }
     ]
     logConfiguration = {
