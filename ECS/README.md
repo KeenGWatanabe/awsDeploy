@@ -1,5 +1,6 @@
-
-
+change main.tf ln 95 - valueFrom =""
+change iam.tf ln84 - resource = [""]
+change iam.tf ln138 - resource = [""]
 # so is the prod.tfvars and dev.tfvars for have separate tfstate files when terraforming?
 workspace
 
