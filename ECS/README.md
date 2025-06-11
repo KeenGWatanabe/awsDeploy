@@ -31,3 +31,6 @@ service_url = "secrets72bd4159-app-lb-1709309573.us-east-1.elb.amazonaws.com"
 
 EC2 ALB map
 ![ALB](image.png)
+
+Both containers running
+![BothContainers](image-1.png)
