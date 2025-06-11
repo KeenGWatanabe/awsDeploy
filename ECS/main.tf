@@ -1,9 +1,9 @@
 terraform {
   backend "s3" {
-    bucket         = "taskmgr.tfstate-backend.com"
-    key            = "basic/terraform.tfstate"
+    bucket         = "secrets.tfstate-backend.com"
+    key            = "secrets/terraform.tfstate"
     region         = "us-east-1"
-    dynamodb_table = "taskmgr-terraform-state-locks" # Critical for locking
+    dynamodb_table = "secrets-terraform-state-locks" # Critical for locking
   }
 }
 
@@ -63,10 +63,7 @@ resource "aws_cloudwatch_log_group" "ecs_logs" {
   name              = "/ecs/${var.name_prefix}-app-service"
   retention_in_days = 30
 }
-# data "aws_cloudwatch_log_group" "ecs_logs" {
-#   name = "/ecs/ce-grp-4r-app-service-f48ddcab"
-#   # retention_in_days = 30
-# }
+
 resource "aws_cloudwatch_log_group" "xray" {
   name              = "/ecs/${var.name_prefix}-xray-daemon"
   retention_in_days = 30
@@ -95,7 +92,7 @@ resource "aws_ecs_task_definition" "app" {
     secrets = [
       {
         name  = "MONGODB_URI",
-        valueFrom = "arn:aws:secretsmanager:us-east-1:255945442255:secret:test/mongodb_uri-0qxinJ:MONGODB_URI::"
+        valueFrom = "arn:aws:secretsmanager:us-east-1:255945442255:secret:test/mongodb_uri-5c38zg:MONGODB_URI::"
     #     # valueFrom = "${data.aws_secretsmanager_secret.mongodb_uri.arn}:MONGODB_URI::"
     #     #valueFrom = "arn:aws:secretsmanager:${var.region}:${data.aws_caller_identity.current.account_id}:secret:test/mongodb_uri"
     #     #valueFrom = "test/mongodb_uri"

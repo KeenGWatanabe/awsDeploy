@@ -23,3 +23,6 @@ $ aws ecs update-service --cluster <cluster-name> --service <service-name> --for
 aws ecs update-service --cluster ce-grp-4t-app-cluster --service ce-grp-4t-app-service-f48ddcab --force-new-deployment
 
 aws ecs update-service --cluster ce-grp-4x-app-cluster --service ce-grp-4x-app-service-1430dc37 --force-new-deployment
+
+ecs_cluster_name = "secrets-app-cluster"
+service_url = "secrets72bd4159-app-lb-1709309573.us-east-1.elb.amazonaws.com"
