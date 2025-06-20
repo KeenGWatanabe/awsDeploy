@@ -92,7 +92,7 @@ resource "aws_ecs_task_definition" "app" {
     secrets = [
       {
         name  = "MONGODB_URI",
-        valueFrom = "arn:aws:secretsmanager:us-east-1:255945442255:secret:code/mongodb_uri-wVqSQk:MONGODB_URI::"
+        valueFrom = "arn:aws:secretsmanager:ap-southeast-1:015519021252:secret:code/mongodb_uri-LmJ1ct:MONGODB_URI::"
     #     # valueFrom = "${data.aws_secretsmanager_secret.mongodb_uri.arn}:MONGODB_URI::"
     #     #valueFrom = "arn:aws:secretsmanager:${var.region}:${data.aws_caller_identity.current.account_id}:secret:test/mongodb_uri"
     #     #valueFrom = "test/mongodb_uri"
