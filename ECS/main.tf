@@ -1,14 +1,14 @@
 terraform {
   backend "s3" {
     bucket         = "secrets.tfstate-backend.com"
-    key            = "secrets/terraform.tfstate"
-    region         = "us-east-1"
+    key            = "secrets-ecs/terraform.tfstate"
+    region         = "ap-southeast-1"
     dynamodb_table = "secrets-terraform-state-locks" # Critical for locking
   }
 }
 
 provider "aws" {
-  region = "us-east-1"
+  region = "ap-southeast-1"
 }
 # unique ID for certain resources
 resource "random_id" "suffix" {
