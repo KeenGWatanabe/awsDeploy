@@ -27,7 +27,7 @@ aws ecs update-service --cluster ce-grp-4t-app-cluster --service ce-grp-4t-app-s
 aws ecs update-service --cluster ce-grp-4x-app-cluster --service ce-grp-4x-app-service-1430dc37 --force-new-deployment
 
 ecs_cluster_name = "secrets-app-cluster"
-service_url = "secrets72bd4159-app-lb-1709309573.us-east-1.elb.amazonaws.com"
+service_url = "secrets9ad679c4-app-lb-1910933802.ap-southeast-1.elb.amazonaws.com"
 
 EC2 ALB map
 ![ALB](image.png)
