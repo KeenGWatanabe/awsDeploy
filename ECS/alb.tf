@@ -32,28 +32,28 @@ resource "aws_lb_target_group" "app" {
 }
 
 # 1. Request or import an SSL certificate (ACM)
-resource "aws_acm_certificate" "app" {
-  domain_name       = "techupz.pro"  # Replace with your domain
-  validation_method = "DNS"            # or "EMAIL"
+# resource "aws_acm_certificate" "app" {
+#   domain_name       = "techupz.pro"  # standby Exabytes authenticator
+#   validation_method = "DNS"            # or "EMAIL"
 
-  lifecycle {
-    create_before_destroy = true
-  }
-}
+#   lifecycle {
+#     create_before_destroy = true
+#   }
+# }
 
 # 2. HTTPS Listener (443)
-resource "aws_lb_listener" "https" {
-  load_balancer_arn = aws_lb.app.arn
-  port              = 443
-  protocol          = "HTTPS"
-  ssl_policy        = "ELBSecurityPolicy-2016-08"  # Recommended policy
-  certificate_arn   = aws_acm_certificate.app.arn
+# resource "aws_lb_listener" "https" {
+#   load_balancer_arn = aws_lb.app.arn
+#   port              = 443
+#   protocol          = "HTTPS"
+#   ssl_policy        = "ELBSecurityPolicy-2016-08"  # Recommended policy
+#   certificate_arn   = aws_acm_certificate.app.arn
 
-  default_action {
-    type             = "forward"
-    target_group_arn = aws_lb_target_group.app.arn
-  }
-}
+#   default_action {
+#     type             = "forward"
+#     target_group_arn = aws_lb_target_group.app.arn
+#   }
+# }
 
 # 3. Update HTTP Listener (80) to redirect to HTTPS
 resource "aws_lb_listener" "app" {
@@ -63,13 +63,14 @@ resource "aws_lb_listener" "app" {
 
 
   default_action {
-    type             = "redirect"
+    type             = "forward" # redirect
+    target_group_arn = aws_lb_target_group.app.arn # remove if using redirect
     
-    redirect {
-      port        = "443"
-      protocol    = "HTTPS"
-      status_code = "HTTP_301"
-    }
+    # redirect {
+    #   port        = "443"
+    #   protocol    = "HTTPS"
+    #   status_code = "HTTP_301"
+    # }
    
   }
 }
