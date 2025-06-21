@@ -2,13 +2,13 @@ terraform {
   backend "s3" {
     bucket         = "secrets.tfstate-backend.com"
     key            = "secrets-ecs/terraform.tfstate"
-    region         = "ap-southeast-1"
+    region         = "us-east-1"
     dynamodb_table = "secrets-terraform-state-locks" # Critical for locking
   }
 }
 
 provider "aws" {
-  region = "ap-southeast-1"
+  region = "us-east-1"
 }
 # unique ID for certain resources
 resource "random_id" "suffix" {
@@ -92,7 +92,7 @@ resource "aws_ecs_task_definition" "app" {
     secrets = [
       {
         name  = "MONGODB_URI",
-        valueFrom = "arn:aws:secretsmanager:ap-southeast-1:015519021252:secret:code/mongodb_uri-LmJ1ct:MONGODB_URI::"
+        valueFrom = "arn:aws:secretsmanager:us-east-1:015519021252:secret:code/mongodb_uri-LmJ1ct:MONGODB_URI::"
     #     # valueFrom = "${data.aws_secretsmanager_secret.mongodb_uri.arn}:MONGODB_URI::"
     #     #valueFrom = "arn:aws:secretsmanager:${var.region}:${data.aws_caller_identity.current.account_id}:secret:test/mongodb_uri"
     #     #valueFrom = "test/mongodb_uri"

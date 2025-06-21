@@ -28,6 +28,6 @@ variable "private_subnet_ids" {
 variable "region" {
   description = "AWS region where resources will be created"
   type        = string
-  default     = "ap-southeast-1"
+  default     = "us-east-1"
   
 }
