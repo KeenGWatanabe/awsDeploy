@@ -12,7 +12,7 @@ variable "vpc_id" {
 }
 
 variable "name_prefix" {
-  description = "ecs for grp4"
+  description = "ecs for app"
   type        = string
 }
 
