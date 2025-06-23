@@ -17,6 +17,10 @@ Run `terraform apply`, then check the output for the validation record:
 terraform output -json | jq '.aws_acm_certificate_app.domain_validation_options'
 ```
 Or get it from the **AWS ACM Console** under "Certificate details".
+```
+terraform show -json | jq '.values.root_module.resources[] | select(.type=="aws_acm_certificate") | .values.domain_validation_options[0].resource_record_name, .values.domain_validation_options[0].resource_record_value'
+"_82844fcc135fdf52b7fe214d1fc662c9.taskmgr.mckeen.sg."
+"_37c7ffb704bd69600c6cd1af093f72a6.xlfgrmvvlj.acm-validations.aws."
 
 You’ll see a CNAME like this:
 ```
@@ -28,9 +32,9 @@ TTL:   300
 #### **3. Manually Add the CNAME in Exabytes**
 1. Log in to your **Exabytes DNS control panel**.
 2. Navigate to **DNS Management** for `techupz.pro`.
-3. Add a **CNAME record** with:
-   - **Host**: `_a1b2c3d4e5.app` (from the ACM output)  
-   - **Points to**: `_x1y2z3.acm-validations.aws.` (note the trailing dot)  
+3. Add a **CNAME record** `TYPE` with:
+   - **Host**`NAME`: `_a1b2c3d4e5.app` (from the ACM output)  
+   - **Points to**`RDATA`: `_x1y2z3.acm-validations.aws.` (note the trailing dot)  
    - **TTL**: `300` (or default)
 
    ⚠️ **Important**:  
