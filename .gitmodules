@@ -10,3 +10,6 @@
 [submodule "vpc"]
 	path = vpc
 	url = https://github.com/KeenGWatanabe/tf-vpc-nat-eip-ec2
+[submodule "awsDeployWebsite"]
+	path = awsDeployWebsite
+	url = https://github.com/KeenGWatanabe/awsDeployWebsite
