@@ -20,14 +20,14 @@ git push origin -u main
 
 
 # cli force deployment
-$ aws ecs update-service --cluster <cluster-name> --service <service-name> --force-new-deployment
+aws ecs update-service --cluster <cluster-name> --service <service-name> --force-new-deployment
 
 aws ecs update-service --cluster ce-grp-4t-app-cluster --service ce-grp-4t-app-service-f48ddcab --force-new-deployment
 
-aws ecs update-service --cluster ce-grp-4x-app-cluster --service ce-grp-4x-app-service-1430dc37 --force-new-deployment
-
+# output
 ecs_cluster_name = "secrets-app-cluster"
-service_url = "secrets9ad679c4-app-lb-1910933802.ap-southeast-1.elb.amazonaws.com"
+service_url = "secrets47e77313-app-lb-183138146.us-east-1.elb.amazonaws.com"
+
 
 EC2 ALB map
 ![ALB](image.png)
