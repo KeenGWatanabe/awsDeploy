@@ -145,7 +145,7 @@ resource "aws_ecs_service" "app" {
     container_port   = 5000
   }
   depends_on = [
-    aws_lb_listener.app,
+    aws_lb_listener.http_redirect,
     aws_cloudwatch_log_group.ecs_logs,
     aws_cloudwatch_log_group.xray
     ]  #ln66, ln69

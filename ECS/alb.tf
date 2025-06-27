@@ -58,7 +58,7 @@ resource "aws_lb_listener" "https" {
   }
 }
 # 3a. Update HTTP Listener (80) to redirect to HTTPS
-resource "aws_lb_listener" "app" {
+resource "aws_lb_listener" "http_redirect" {
   load_balancer_arn = aws_lb.app.arn
   port              = 80
   protocol          = "HTTP"
@@ -72,18 +72,6 @@ resource "aws_lb_listener" "app" {
       status_code = "HTTP_301"
     }  
    
-  }
-}
-
-# 3. Update HTTP Listener (80) to redirect to HTTPS
-resource "aws_lb_listener" "app" {
-  load_balancer_arn = aws_lb.app.arn
-  port              = 80
-  protocol          = "HTTP"
-
-  default_action {
-    type             = "forward" # redirect
-    target_group_arn = aws_lb_target_group.app.arn
   }
 }
 
