@@ -31,3 +31,8 @@ variable "region" {
   default     = "us-east-1"
   
 }
+
+variable "hosted_zone_id" {
+  description = "Route 53 Hosted Zone ID for DNS records"
+  type        = string
+}

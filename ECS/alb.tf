@@ -31,49 +31,49 @@ resource "aws_lb_target_group" "app" {
   }
 }
 
-# # 1. Request or import an SSL certificate (ACM)
-resource "aws_acm_certificate" "app" {
-  domain_name       = "taskmgr.mckeen.sg"  # standby Exabytes authenticator
-  validation_method = "DNS"            # or "EMAIL"
+# # # 1. Request or import an SSL certificate (ACM)
+# resource "aws_acm_certificate" "app" {
+#   domain_name       = "taskmgr.mckeen.sg"  # standby Exabytes authenticator
+#   validation_method = "DNS"            # or "EMAIL"
 
-  lifecycle {
-    create_before_destroy = true
-  }
-}
-resource "aws_acm_certificate_validation" "app" {
-  certificate_arn = aws_acm_certificate.app.arn
-  # No validation_record_fqdns needed (manual DNS)
-}
-# 2. HTTPS Listener (443)
-resource "aws_lb_listener" "https" {
-  load_balancer_arn = aws_lb.app.arn
-  port              = 443
-  protocol          = "HTTPS"
-  ssl_policy        = "ELBSecurityPolicy-2016-08"  # Recommended policy
-  certificate_arn   = aws_acm_certificate.app.arn
+#   lifecycle {
+#     create_before_destroy = true
+#   }
+# }
+# resource "aws_acm_certificate_validation" "app" {
+#   certificate_arn = aws_acm_certificate.app.arn
+#   # No validation_record_fqdns needed (manual DNS)
+# }
+# # 2. HTTPS Listener (443)
+# resource "aws_lb_listener" "https" {
+#   load_balancer_arn = aws_lb.app.arn
+#   port              = 443
+#   protocol          = "HTTPS"
+#   ssl_policy        = "ELBSecurityPolicy-2016-08"  # Recommended policy
+#   certificate_arn   = aws_acm_certificate.app.arn
 
-  default_action {
-    type             = "forward"
-    target_group_arn = aws_lb_target_group.app.arn
-  }
-}
-# 3a. Update HTTP Listener (80) to redirect to HTTPS
-resource "aws_lb_listener" "http_redirect" {
-  load_balancer_arn = aws_lb.app.arn
-  port              = 80
-  protocol          = "HTTP"
+#   default_action {
+#     type             = "forward"
+#     target_group_arn = aws_lb_target_group.app.arn
+#   }
+# }
+# # 3a. Update HTTP Listener (80) to redirect to HTTPS
+# resource "aws_lb_listener" "http_redirect" {
+#   load_balancer_arn = aws_lb.app.arn
+#   port              = 80
+#   protocol          = "HTTP"
 
-  default_action {
-    type             = "redirect" # for https
+#   default_action {
+#     type             = "redirect" # for https
     
-    redirect {
-      port        = "443"
-      protocol    = "HTTPS"
-      status_code = "HTTP_301"
-    }  
+#     redirect {
+#       port        = "443"
+#       protocol    = "HTTPS"
+#       status_code = "HTTP_301"
+#     }  
    
-  }
-}
+#   }
+# }
 
 resource "aws_security_group" "alb" {
   name        = "${var.name_prefix}-app-alb-sg"
