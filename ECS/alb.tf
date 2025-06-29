@@ -74,6 +74,22 @@ resource "aws_lb_listener" "http_redirect" {
    
   }
 }
+# 3b. Host-based routing rule for taskmgr.mckeen.sg
+resource "aws_lb_listener_rule" "host_based" {
+  listener_arn = aws_lb_listener.https.arn
+  priority     = 100
+
+  condition {
+    host_header {
+      values = ["taskmgr.mckeen.sg"]
+    }
+  }
+
+  action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.app.arn
+  }
+}
 
 resource "aws_security_group" "alb" {
   name        = "${var.name_prefix}-app-alb-sg"

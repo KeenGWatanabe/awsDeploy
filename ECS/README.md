@@ -37,3 +37,7 @@ EC2 ALB map
 
 Both containers running
 ![BothContainers](/images/bothContainers.png)
+
+
+ALB's DNS name
+thunder40417c0f-app-lb-1592633128.us-east-1.elb.amazonaws.com
