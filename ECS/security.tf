@@ -5,8 +5,8 @@ resource "aws_security_group" "ecs_tasks" {
 
   ingress {
     protocol        = "tcp"
-    from_port       = 5000
-    to_port         = 5000
+    from_port       = 3000
+    to_port         = 3000
     security_groups = [aws_security_group.alb.id]
   }
 
@@ -28,7 +28,7 @@ resource "aws_security_group" "ecs_tasks" {
 resource "aws_security_group" "vpc_endpoint" {
   name        = "${var.name_prefix}-vpc-endpoint-sg"
   description = "Security group for VPC endpoints"
-  vpc_id      = var.vpc_id #aws_vpc.main.id 
+  vpc_id      = data.aws_vpc.selected.id #aws_vpc.main.id
 
   ingress {
     description = "HTTPS from VPC"

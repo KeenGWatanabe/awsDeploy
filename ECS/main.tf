@@ -1,15 +1,16 @@
 terraform {
   backend "s3" {
     bucket         = "secrets.tfstate-backend.com"
-    key            = "secrets-ecs/terraform.tfstate"
+    key            = "secrets-ecs3000/terraform.tfstate"
     region         = "us-east-1"
     dynamodb_table = "secrets-terraform-state-locks" # Critical for locking
   }
 }
-
 provider "aws" {
   region = "us-east-1"
 }
+
+
 # unique ID for certain resources
 resource "random_id" "suffix" {
   byte_length = 4
@@ -84,8 +85,8 @@ resource "aws_ecs_task_definition" "app" {
     image     = "${aws_ecr_repository.app.repository_url}:latest"
     essential = true
     portMappings = [{
-      containerPort = 5000
-      hostPort      = 5000
+      containerPort = 3000
+      hostPort      = 3000
     }]
     ## secrets for app, g4infra using "environment ln77"
    
@@ -142,7 +143,7 @@ resource "aws_ecs_service" "app" {
   load_balancer {
     target_group_arn = aws_lb_target_group.app.arn
     container_name   = "${var.name_prefix}-app"
-    container_port   = 5000
+    container_port   = 3000
   }
   depends_on = [
     aws_lb_listener.http_redirect,
