@@ -1,9 +1,9 @@
 terraform {
   backend "s3" {
-    bucket         = "secrets.tfstate-backend.com"
-    key            = "secrets-ecs/terraform.tfstate"
+    bucket         = "thunder.tfstate-backend.com"
+    key            = "thunderecs/terraform.tfstate"
     region         = "us-east-1"
-    dynamodb_table = "secrets-terraform-state-locks" # Critical for locking
+    dynamodb_table = "thunder-terraform-state-locks" # Critical for locking
   }
 }
 provider "aws" {
@@ -29,7 +29,7 @@ resource "random_id" "suffix" {
 #############################################################
 module "ecs" {
   source  = "terraform-aws-modules/ecs/aws"
-  version = "~> 5.0"
+  version = "~> 5.12"
 
   cluster_name = "${var.name_prefix}-app-cluster"
   cluster_configuration = {
@@ -55,7 +55,7 @@ module "ecs" {
   }
 
   tags = {
-    Environment = "secrets"
+    Environment = "thunder"
     Application = "${var.name_prefix}-app"
   }
 }

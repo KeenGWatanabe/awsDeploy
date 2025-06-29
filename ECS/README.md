@@ -24,9 +24,12 @@ aws ecs update-service --cluster <cluster-name> --service <service-name> --force
 
 aws ecs update-service --cluster ce-grp-4t-app-cluster --service ce-grp-4t-app-service-f48ddcab --force-new-deployment
 
-# output
-ecs_cluster_name = "secrets-app-cluster"
-service_url = "secrets47e77313-app-lb-183138146.us-east-1.elb.amazonaws.com"
+
+# Outputs:
+
+ecs_cluster_name = "thunder-app-cluster"
+service_url = "thunder40417c0f-app-lb-1592633128.us-east-1.elb.amazonaws.com"
+
 
 
 EC2 ALB map
