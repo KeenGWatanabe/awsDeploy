@@ -1,7 +1,7 @@
 terraform {
   backend "s3" {
     bucket         = "secrets.tfstate-backend.com"
-    key            = "secrets-ecs3000/terraform.tfstate"
+    key            = "secrets-ecs/terraform.tfstate"
     region         = "us-east-1"
     dynamodb_table = "secrets-terraform-state-locks" # Critical for locking
   }
