@@ -33,7 +33,7 @@ service_url = "thunder40417c0f-app-lb-1592633128.us-east-1.elb.amazonaws.com"
 
 
 EC2 ALB map
-![ALB](image.png)
+![ALB](/images/alb.png)
 
 Both containers running
-![BothContainers](image-1.png)
+![BothContainers](/images/bothContainers.png)
