@@ -1,7 +1,7 @@
 ## region - us-east-1
 
 1. tf-backend
-
+2. tf-vpc
 
 Run secrets, update iam.tf line 44 for mongo arn
 
