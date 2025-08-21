@@ -1,3 +1,8 @@
+## region - us-east-1
+
+1. tf-backend
+
+
 Run secrets, update iam.tf line 44 for mongo arn
 
 # terraform sequence
