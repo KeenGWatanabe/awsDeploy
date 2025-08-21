@@ -3,7 +3,6 @@
 | 1. tf-backend  | E:\DEV\NTU-CloudEngr\tf-backend |
 |----------------|---------------------------------|   
 | 2. tf-vpc      | C:\Users\bookk\Documents\GIT\tf-vpc-nat-eip-ec2 |
-
 | 3. secrets-mgr | E:\DEV\NTU-CloudEngr\tf-secrets | 
 |----------------|---------------------------------| 
 
