@@ -1,11 +1,11 @@
 ## region - us-east-1
 
-| 1. tf-backend  | E:\DEV\NTU-CloudEngr\tf-backend |
-|----------------|---------------------------------|   
-| 2. tf-vpc      | C:\Users\bookk\Documents\GIT\tf-vpc-nat-eip-ec2 |
-| 3. secrets-mgr | E:\DEV\NTU-CloudEngr\tf-secrets | 
-| 4. ECS         | E:\DEV\NTU-CloudEngr\awsDeploy\ECS |
-| 5. APP         | E:\DEV\NTU-CloudEngr\tf-secretsAPP |
+| 1. tf-backend  | E:\DEV\NTU-CloudEngr\tf-backend | 'main' |
+|----------------|---------------------------------|-----------|   
+| 2. tf-vpc      | C:\Users\bookk\Documents\GIT\tf-vpc-nat-eip-ec2 | 'secrets' |
+| 3. secrets-mgr | E:\DEV\NTU-CloudEngr\tf-secrets | 'main' |
+| 4. ECS         | E:\DEV\NTU-CloudEngr\awsDeploy\ECS | 'secrets' |
+| 5. APP         | E:\DEV\NTU-CloudEngr\tf-secretsAPP | 'secrets' |
 
 
 Run secrets, update iam.tf line 44 for mongo arn
