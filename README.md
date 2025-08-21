@@ -1,7 +1,9 @@
 ## region - us-east-1
 
-1. tf-backend
-2. tf-vpc
+| 1. tf-backend  | E:\DEV\NTU-CloudEngr\tf-backend |
+|----------------|---------------------------------|   
+| 2. tf-vpc      | C:\Users\bookk\Documents\GIT\tf-vpc-nat-eip-ec2 |
+|----------------|---------------------------------|
 
 Run secrets, update iam.tf line 44 for mongo arn
 
