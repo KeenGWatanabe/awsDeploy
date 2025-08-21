@@ -5,7 +5,7 @@
 | 2. tf-vpc      | C:\Users\bookk\Documents\GIT\tf-vpc-nat-eip-ec2 |
 | 3. secrets-mgr | E:\DEV\NTU-CloudEngr\tf-secrets | 
 | 4. ECS         | E:\DEV\NTU-CloudEngr\awsDeploy\ECS |
-| 5. tf-secretsAPP | E:\DEV\NTU-CloudEngr\tf-secretsAPP |
+| 5. APP         | E:\DEV\NTU-CloudEngr\tf-secretsAPP |
 
 
 Run secrets, update iam.tf line 44 for mongo arn
