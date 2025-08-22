@@ -18,8 +18,8 @@ resource "random_id" "suffix" {
 
 ## reference by data to tf-secrets ##########################
 # data "aws_secretsmanager_secret" "mongodb_uri" {
-#   # arn = "arn:aws:secretsmanager:us-east-1:255945442255:secret:test/mongodb_uri-0qxinJ"
-#   name = "test/mongodb_uri"
+#   # arn = "arn:aws:secretsmanager:ap-southeast-1:015519021252:secret:code/mongodb_uri-6HFFyg"
+#   name = "code/mongodb_uri"
 # }
  
 # ## reference the secret version
