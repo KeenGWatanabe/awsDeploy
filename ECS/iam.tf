@@ -82,7 +82,7 @@ resource "aws_iam_role_policy" "ecs_secrets_access" {
         "secretsmanager:GetSecretValue", "secretsmanager:DescribeSecret"
         ],
       Resource = [
-        "arn:aws:secretsmanager:us-east-1:015519021252:secret:code/mongodb_uri-*"
+        "arn:aws:secretsmanager:ap-southeast-1:015519021252:secret:code/mongodb_uri-*"
         #"arn:aws:secretsmanager:${var.region}:${data.aws_caller_identity.current.account_id}:secret:${var.mongodb_name}${var.mongodb_prefix}"
         ]  #[data.aws_secretsmanager_secret.mongodb_uri.arn] 
     },
