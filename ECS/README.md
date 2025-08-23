@@ -28,9 +28,7 @@ aws ecs update-service --cluster ce-grp-4t-app-cluster --service ce-grp-4t-app-s
 # Outputs:
 
 ecs_cluster_name = "thunder-app-cluster"
-service_url = "thunder40417c0f-app-lb-1592633128.us-east-1.elb.amazonaws.com"
-
-
+service_url = "thunder862179a3-app-lb-1797290306.us-east-1.elb.amazonaws.com"
 
 EC2 ALB map
 ![ALB](/images/alb.png)
